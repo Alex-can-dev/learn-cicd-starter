@@ -36,5 +36,7 @@ jobs:
         run: |
           echo "'Style' job: test -z"
           test -z "$(go fmt ./...)"
+          echo $?
           echo "'Style' job: go fmt"
           go fmt ./...
+          echo $?
