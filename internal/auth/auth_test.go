@@ -15,7 +15,7 @@ func TestGetAPIKey(t *testing.T) {
 	}{
 		{"missing header", "", "", ErrNoAuthHeaderIncluded},
 		{"wrong format", "Bearer 12345", "", errors.New("malformed authorization header")},
-		{"no key", "ApiKey", "", errors.New("malformed authorization header")
+		{"no key", "ApiKey", "", errors.New("malformed authorization header")},
 		{"valid header", "ApiKey 12345", "12345", nil},
 	}
 
