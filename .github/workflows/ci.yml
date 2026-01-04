@@ -33,4 +33,8 @@ jobs:
           go-version: "1.25.1"
 
       - name: Check code formatting
-        run: test -z $(go fmt ./...)
+        run: |
+          echo "'Style' job: test -z"
+          test -z "$(go fmt ./...)"
+          echo "'Style' job: go fmt"
+          go fmt ./...
