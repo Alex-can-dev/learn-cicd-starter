@@ -33,3 +33,6 @@ jobs:
 
       - name: Build Docker
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/abiding-ion-483317-v1/notely-ar-repo/alexcandev/notely:latest .
+
+      - name: Deploy app to Cloud Run
+        run: gcloud run deploy notely --image us-central1-docker.pkg.dev/abiding-ion-483317-v1/notely-ar-repo/alexcandev/notely:latest --region us-central1 --allow-unauthenticated --project notely-ar-repo --max-instances=4
