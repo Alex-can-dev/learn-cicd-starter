@@ -8,6 +8,10 @@ jobs:
   tests:
     name: Deploy
     runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -16,6 +20,9 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.1"
+
+      - name: Install goose
+        run: go install github.com/pressly/goose/v3/cmd/goose@latest
 
       - name: Build app
         run: ./scripts/buildprod.sh
@@ -33,6 +40,9 @@ jobs:
 
       - name: Build Docker
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/abiding-ion-483317-v1/notely-ar-repo/alexcandev/notely:latest .
+
+      - name: Migrate db
+        run: ./scripts/migrateup.sh
 
       - name: Deploy app to Cloud Run
         run: gcloud run deploy notely --image us-central1-docker.pkg.dev/abiding-ion-483317-v1/notely-ar-repo/alexcandev/notely:latest --region us-central1 --allow-unauthenticated --project abiding-ion-483317-v1 --max-instances=4
